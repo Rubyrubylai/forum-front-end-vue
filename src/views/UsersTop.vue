@@ -9,7 +9,7 @@
       <UserCard
         v-for="user in users"
         :key="user.id"
-        :user="user"
+        :initial-user="user"
       />
     </div>
   </div>

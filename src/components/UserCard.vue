@@ -33,9 +33,14 @@
 <script>
 export default {
   props: {
-    user: {
+    initialUser: {
       type: Object,
       required: true
+    }
+  },
+  data() {
+    return {
+      user: this.initialUser
     }
   },
   methods: {

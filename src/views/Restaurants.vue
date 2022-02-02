@@ -17,7 +17,7 @@
       v-if="totalPage.length > 1"
       :current-page="currentPage"
       :total-page="totalPage"
-      :category-id="categoryId"
+      :category-id="CategoryId"
       :previous-page="previousPage"
       :next-page="nextPage"
     />
@@ -288,7 +288,7 @@ const dummyData = {
       "updatedAt": "2022-01-31T07:49:12.000Z"
     }
   ],
-  "categoryId": "",
+  "CategoryId": "",
   "page": 1,
   "totalPage": [
     1,
@@ -312,7 +312,7 @@ export default {
     return {
       restaurants: [],
       categories: [],
-      categoryId: -1,
+      CategoryId: -1,
       currentPage: 1,
       totalPage: [],
       previousPage: -1,
@@ -328,7 +328,7 @@ export default {
       const {
         restaurants,
         categories,
-        categoryId,
+        CategoryId,
         page,
         totalPage,
         prev,
@@ -336,7 +336,7 @@ export default {
       } = dummyData
       this.restaurants = restaurants
       this.categories = categories
-      this.categoryId = categoryId
+      this.CategoryId = CategoryId
       this.currentPage = page
       this.totalPage = totalPage
       this.previousPage = prev
