@@ -1,6 +1,9 @@
 <template>
   <div class="container py-5">
-    <form class="w-100" @submit.stop.prevent="handleSubmit">
+    <form 
+      class="w-100"
+      @submit.stop.prevent="handleSubmit"
+    >
       <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">
           Sign Up
@@ -67,6 +70,7 @@
       <button
         class="btn btn-lg btn-primary btn-block mb-3"
         type="submit"
+        :disabled="isProcessing"
       >
         Submit
       </button>
@@ -87,18 +91,50 @@
 </template>
 
 <script>
+import authorizationAPI from '../apis/authorization'
+import { Toast } from '../utils/helpers'
+
 export default {
   data () {
     return {
       name: '',
       email: '',
       password: '',
-      passwordCheck: ''
+      passwordCheck: '',
+      isProcessing: false
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
+      try {
+        if (this.password !== this.passwordCheck) {
+          Toast.fire({
+            icon: 'warning',
+            title: '兩次輸入的密碼不一致，請重新輸入'
+          })
+          return
+        }
 
+        this.isProcessing = true
+        const { data } = await authorizationAPI.signup({
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          passwordCheck: this.passwordCheck
+        })
+
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+
+        this.$router.push('/signin')
+      } catch (error) {
+        this.isProcessing = false
+        Toast.fire({
+          icon: 'warning',
+          title: '註冊失敗，請稍後再試'
+        })
+      }
     }
   }
 }
