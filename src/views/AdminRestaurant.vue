@@ -58,7 +58,7 @@ const dummyData = {
     image: 'https://loremflickr.com/320/240/food,dessert,restaurant/?random=2',
     createdAt: '2019-06-22T09:00:43.000Z',
     updatedAt: '2019-06-22T09:00:43.000Z',
-    CategoryId: 3,
+    categoryId: 3,
     Category: {
       id: 3,
       name: '義大利料理',

@@ -8,11 +8,11 @@
       >
     </a>
     <h2>{{user.name}}</h2>
-    <span>追蹤人數：{{user.Followers.length}}</span>
+    <span>追蹤人數：{{user.followerCount}}</span>
     <p class="mt-3">
       <button
         v-if="user.isFollowed"
-        @click.prevent.stop="deleteFollow"
+        @click.prevent.stop="deleteFollow(user.id)"
         type="button"
         class="btn btn-danger"
       >
@@ -22,7 +22,7 @@
         v-else
         type="button"
         class="btn btn-primary"
-        @click.prevent.stop="addFollow"
+        @click.prevent.stop="addFollow(user.id)"
       >
         追蹤
       </button>
@@ -31,6 +31,9 @@
 </template>
 
 <script>
+import usersAPI from '../apis/users'
+import { Toast } from '../utils/helpers'
+
 export default {
   props: {
     initialUser: {
@@ -44,16 +47,44 @@ export default {
     }
   },
   methods: {
-    addFollow() {
-      this.user = {
-        ...this.user,
-        isFollowed: true
+    async addFollow(userId) {
+      try {
+        const { data } = await usersAPI.addFollowing({ userId })
+
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+
+        this.user = {
+          ...this.user,
+          followerCount: this.user.followerCount + 1,
+          isFollowed: true
+        }
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法加入追縱，請稍後再試'
+        })
       }
     },
-    deleteFollow() {
-      this.user = {
-        ...this.user,
-        isFollowed: false
+    async deleteFollow(userId) {
+      try {
+        const { data } = await usersAPI.deleteFollowing({ userId })
+
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+
+        this.user = {
+          ...this.user,
+          followerCount: this.user.followerCount - 1,
+          isFollowed: false
+        }
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取消追縱，請稍後再試'
+        })
       }
     }
   }

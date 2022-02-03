@@ -22,7 +22,7 @@ const dummyData = {
     'viewCounts': 1,
     'createdAt': '2019-07-30T16:24:55.432Z',
     'updatedAt': '2019-07-30T17:26:43.260Z',
-    'CategoryId': 3,
+    'categoryId': 3,
     'Category': {
       'id': 3,
       'name': '義大利料理',
@@ -41,7 +41,7 @@ export default {
       restaurant: {
         id: -1,
         name: '',
-        CategoryId: '',
+        categoryId: '',
         tel: '',
         address: '',
         description: '',
@@ -69,7 +69,7 @@ export default {
         ...this.restaurant,
         id: restaurant.id,
         name: restaurant.name,
-        CategoryId: restaurant.CategoryId,
+        categoryId: restaurant.categoryId,
         tel: restaurant.tel,
         address: restaurant.address,
         description: restaurant.description,

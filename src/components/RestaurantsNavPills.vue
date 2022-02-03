@@ -16,7 +16,7 @@
     >
       <router-link
         class="nav-link"
-        :to="{ name: 'restaurants', query: { CategoryId: category.id } }"
+        :to="{ name: 'restaurants', query: { categoryId: category.id } }"
       >
         {{ category.name }}
       </router-link>

@@ -86,7 +86,7 @@
               v-show="category.isEditing"
               type="button"
               class="btn btn-link mr-2"
-              @click.stop.prevent="updateCategory({ CategoryId: category.id, name: category.name })"
+              @click.stop.prevent="updateCategory({ categoryId: category.id, name: category.name })"
             >
               Save
             </button>
@@ -167,15 +167,15 @@ export default {
 
       this.newCategoryName = ''
     },
-    deleteCategory(CategoryId) {
-      this.categories = this.categories.filter(category => category.id !== CategoryId)
+    deleteCategory(categoryId) {
+      this.categories = this.categories.filter(category => category.id !== categoryId)
     },
-    updateCategory({ CategoryId, name }) {
-      this.toggleIsEditing(CategoryId)
+    updateCategory({ categoryId, name }) {
+      this.toggleIsEditing(categoryId)
     },
-    toggleIsEditing(CategoryId) {
+    toggleIsEditing(categoryId) {
       this.categories = this.categories.map(category => {
-        if (category.id === CategoryId) {
+        if (category.id === categoryId) {
           return {
             ...category,
             isEditing: !category.isEditing,
@@ -186,9 +186,9 @@ export default {
         return category
       })
     },
-    handleCancel(CategoryId) {
+    handleCancel(categoryId) {
       this.categories = this.categories.map(category => {
-        if (category.id === CategoryId) {
+        if (category.id === categoryId) {
           return {
             ...category,
             name: category.nameCached
@@ -198,7 +198,7 @@ export default {
         return category
       })
 
-      this.toggleIsEditing(CategoryId)
+      this.toggleIsEditing(categoryId)
     }
   }
 }

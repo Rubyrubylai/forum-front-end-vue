@@ -17,7 +17,7 @@
           <h5 class="card-title">
             {{restaurant.name}}
           </h5>
-          <span class="badge badge-secondary">收藏數：{{restaurant.FavoriteCount}}</span>
+          <span>收藏數：{{restaurant.FavoriteCount}}</span>
           <p class="card-text">
             {{restaurant.text}}
           </p>
@@ -30,7 +30,7 @@
             type="button"
             class="btn btn-danger mr-2"
             v-if="restaurant.isFavorited"
-            @click.prevent.stop="deleteFavorite"
+            @click.prevent.stop="deleteFavorite(restaurant.id)"
           >
             移除最愛
           </button>
@@ -38,7 +38,7 @@
             type="button"
             class="btn btn-primary"
             v-else
-            @click.prevent.stop="addFavorite"
+            @click.prevent.stop="addFavorite(restaurant.id)"
           >
             加到最愛
           </button>
@@ -49,6 +49,9 @@
 </template>
 
 <script>
+import usersAPI from '../apis/users'
+import { Toast } from '../utils/helpers'
+
 export default {
   props: {
     initialRestaurant: {
@@ -62,18 +65,46 @@ export default {
     }
   },
   methods: {
-    addFavorite() {
-      this.restaurant = {
-        ...this.restaurant,
-        isFavorited: true
+    async addFavorite(restaurantId) {
+      try {
+        const { data } = await usersAPI.addFavorite({ restaurantId })
+
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+
+        this.restaurant = {
+          ...this.restaurant,
+          FavoriteCount: this.restaurant.FavoriteCount + 1,
+          isFavorited: true
+        }
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法將餐廳加入最愛，請稍後再試'
+        })
       }
     },
-    deleteFavorite() {
-      this.restaurant = {
-        ...this.restaurant,
-        isFavorited: false
+    async deleteFavorite(restaurantId) {
+      try {
+        const { data } = await usersAPI.deleteFavorite({ restaurantId })
+
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+
+        this.restaurant = {
+          ...this.restaurant,
+          FavoriteCount: this.restaurant.FavoriteCount - 1,
+          isFavorited: false
+        }
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法將餐廳移除最愛，請稍後再試'
+        })
       }
-    }
+    },
   }
 }
 </script>

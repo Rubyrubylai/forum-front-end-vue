@@ -37,7 +37,7 @@ const dummyData = {
     "viewCounts": 0,
     "createdAt": "2022-01-31T07:49:12.000Z",
     "updatedAt": "2022-01-31T07:49:12.000Z",
-    "CategoryId": 2,
+    "categoryId": 2,
     "Category": {
       "id": 2,
       "name": "日本料理",

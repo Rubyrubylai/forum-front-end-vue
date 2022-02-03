@@ -14,12 +14,12 @@
     </div>
 
     <div class="form-group">
-      <label for="CategoryId">Category</label>
+      <label for="categoryId">Category</label>
       <select
-        id="CategoryId"
-        v-model="restaurant.CategoryId"
+        id="categoryId"
+        v-model="restaurant.categoryId"
         class="form-control"
-        name="CategoryId"
+        name="categoryId"
         required
       >
         <option
@@ -151,7 +151,7 @@ export default {
       default: () => {
         return {
           name: '',
-          CategoryId: '',
+          categoryId: '',
           tel: '',
           address: '',
           description: '',
