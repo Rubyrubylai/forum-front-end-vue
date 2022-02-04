@@ -25,85 +25,11 @@
 </template>
 
 <script>
-const dummyData = {
-  "restaurant": {
-    "id": 1,
-    "name": "Malinda Ward",
-    "tel": "068-332-5988 x7248",
-    "address": "319 Morissette Wells",
-    "opening_hours": "08:00",
-    "description": "Iure facere corporis laboriosam veritatis.",
-    "image": "https://loremflickr.com/320/240/restaurant,food/?random=34.26217016006026",
-    "viewCounts": 0,
-    "createdAt": "2022-01-31T07:49:12.000Z",
-    "updatedAt": "2022-01-31T07:49:12.000Z",
-    "categoryId": 2,
-    "Category": {
-      "id": 2,
-      "name": "日本料理",
-      "createdAt": "2022-01-31T07:49:12.000Z",
-      "updatedAt": "2022-01-31T07:49:12.000Z"
-    },
-    "Comments": [
-      {
-        "id": 101,
-        "text": "Aut quas ut totam.",
-        "UserId": 1,
-        "RestaurantId": 1,
-        "createdAt": "2022-01-31T07:49:12.000Z",
-        "updatedAt": "2022-01-31T07:49:12.000Z",
-        "User": {
-          "id": 1,
-          "name": "root",
-          "email": "root@example.com",
-          "password": "$2a$10$lhQQRzd.MiI7bFp/Hnwx8upe8.6gEX7a6bsRKwgLC88on0M3UiR9a",
-          "isAdmin": true,
-          "image": null,
-          "createdAt": "2022-01-31T07:49:12.000Z",
-          "updatedAt": "2022-01-31T07:49:12.000Z"
-        }
-      },
-      {
-        "id": 51,
-        "text": "Sed quia qui voluptas veniam quibusdam libero ipsum quo est.",
-        "UserId": 2,
-        "RestaurantId": 1,
-        "createdAt": "2022-01-31T07:49:12.000Z",
-        "updatedAt": "2022-01-31T07:49:12.000Z",
-        "User": {
-          "id": 2,
-          "name": "user1",
-          "email": "user1@example.com",
-          "password": "$2a$10$hiu0H/XQNx/AFiPmiBJA7uc7IBHMYmbrNWQGlvr.nNFmA8IU.ljdW",
-          "isAdmin": false,
-          "image": null,
-          "createdAt": "2022-01-31T07:49:12.000Z",
-          "updatedAt": "2022-01-31T07:49:12.000Z"
-        }
-      },
-      {
-        "id": 1,
-        "text": "Voluptas sint dolores omnis cum.",
-        "UserId": 3,
-        "RestaurantId": 1,
-        "createdAt": "2022-01-31T07:49:12.000Z",
-        "updatedAt": "2022-01-31T07:49:12.000Z",
-        "User": {
-          "id": 3,
-          "name": "user2",
-          "email": "user2@example.com",
-          "password": "$2a$10$oeZAkhtCQTk/KQ2N4pkp..S93mPXWZ3bngAOyJDo70V.TSs3YMXCS",
-          "isAdmin": false,
-          "image": null,
-          "createdAt": "2022-01-31T07:49:12.000Z",
-          "updatedAt": "2022-01-31T07:49:12.000Z"
-        }
-      }
-    ]
-  }
-}
+import restaurantsAPI from '../apis/restaurants'
+import { Toast } from '../utils/helpers'
 
 export default {
+  name: 'RestaurantDashBoard',
   data() {
     return {
       restaurant: ''
@@ -113,10 +39,23 @@ export default {
     const { id: restaurantId } = this.$route.params
     this.fetchRestaurant(restaurantId)
   },
+  beforeRouteUpdate(to, from, next) {
+    const { id: restaurantId } = to.params
+    this.fetchRestaurant(restaurantId)
+    next()
+  },
   methods: {
-    fetchRestaurant(restaurantId) {
-      console.log('restaurantId: ', restaurantId)
-      this.restaurant = dummyData.restaurant
+    async fetchRestaurant(restaurantId) {
+      try {
+        const { data } = await restaurantsAPI.getRestaurant({ restaurantId })
+
+        this.restaurant = data.restaurant
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得餐廳資料，請稍後再試'
+        })
+      }
     }
   }
 }

@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid"
-
 export default {
   props: {
     restaurantId: {
@@ -42,9 +40,8 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       this.$emit('create-comment', {
-        commentId: uuidv4(),
         restaurantId: this.restaurantId,
         text: this.text
       })
