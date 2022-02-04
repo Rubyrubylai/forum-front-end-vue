@@ -44,6 +44,7 @@
           <button
             type="button" 
             class="btn btn-sm btn-outline-success my-2 my-sm-0"
+            @click.prevent.stop="signup"
           >
             登出
           </button>
@@ -59,6 +60,29 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState(['currentUser', 'isAuthenticated'])
+  },
+  methods: {
+    signup() {
+      this.$store.commit('revokeAuthentication')
+      this.$router.push('/signin')
+    }
   }
 }
 </script>
+
+<style scoped>
+  .navbar-toggler {
+    min-width: 70px;
+    margin-right: 0;
+  }
+
+  nav.bg-dark {
+    padding: 14px 16px;
+    background-color: #bd2333 !important;
+  }
+
+  .navbar-brand {
+    font-size: 19px;
+    padding: 0;
+}
+</style>

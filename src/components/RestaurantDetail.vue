@@ -3,7 +3,7 @@
     <div class="col-md-12 mb-3">
       <h1>{{restaurant.name}}</h1>
       <p class="badge badge-secondary mt-1 mb-3">
-        {restaurant.Category ? restaurant.Category.name: '未分類'}}
+        {{restaurant.Category ? restaurant.Category.name: '未分類'}}
       </p>
     </div>
     <div class="col-lg-4">
@@ -181,3 +181,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.col-lg-8 p,
+.contact-info-wrap li,
+.contact-info-wrap strong {
+  font-family: serif;
+  font-size: 17px;
+}
+</style>
